@@ -14,28 +14,29 @@ import org.springframework.web.bind.annotation.RestController;
 import com.buyg.beans.Carwasher;
 import com.buyg.beans.CarwasherAddress;
 import com.buyg.beans.CommonBean;
-import com.buyg.service.carwasher.ShopService;
+import com.buyg.service.carwasher.CarwasherService;
 
 @RequestMapping(value = "/carwasherController")
 @RestController
 public class CarwasherController {
 
 	@Autowired
-	private ShopService shopService;
+	private CarwasherService carwasherService;
 
 	@PostMapping(value = "/signUp")
 	public Map<String, Object> doSignUp(@RequestBody Carwasher shop) throws Exception {
-		return shopService.signUp(shop);
+		System.out.println(shop.toString());
+		return carwasherService.signUp(shop);
 	}
 
 	@PostMapping(value = "/login")
 	public Map<String, Object> doLogin(@RequestBody Carwasher shop) throws Exception {
-		return shopService.doLogin(shop);
+		return carwasherService.doLogin(shop);
 	}
 
 	@PostMapping(value = "/saveaddress")
 	public Map<String, Object> saveAddress(@RequestBody CarwasherAddress shopAddress) throws Exception {
-		return shopService.saveAddress(shopAddress);
+		return carwasherService.saveAddress(shopAddress);
 	}
 
 	@GetMapping(value = "/getAddress/{shopId}")
@@ -44,13 +45,13 @@ public class CarwasherController {
 		return null;
 	}
 
-	@PutMapping("/shopUpdate/{id}")
+	@PutMapping("/carwasherUpdate/{id}")
 	public Map<String, Object> updateStudent(@RequestBody Carwasher shop, @PathVariable Integer id) {
 		// return shopService.updateShop(shop, id);
 		return null;
 	}
 
-	@PutMapping("/shopPasswordUpdate/{id}")
+	@PutMapping("/carwasherPasswordUpdate/{id}")
 	public Map<String, Object> updatePassword(@RequestBody CommonBean bean, @PathVariable Integer id) {
 		// return shopService.updatePassword(bean,id);
 		return null;

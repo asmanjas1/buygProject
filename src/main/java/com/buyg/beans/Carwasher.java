@@ -9,7 +9,7 @@ public class Carwasher {
 	private Integer carwasherId;
 	private String name;
 	private String email;
-	private Long phoneNumber;
+	private String phoneNumber;
 	private String password;
 	private Date registrationDate;
 	private Date lastUpdateDate;

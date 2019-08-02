@@ -10,10 +10,11 @@ public class Consumer {
 	private Integer consumerId;
 	private String name;
 	private String email;
-	private Long phoneNumber;
+	private String phoneNumber;
 	private String password;
 	private Date registrationDate;
 	private Date lastUpdateDate;
 	private Vehicle vehicle;
 	private List<ConsumerAddress> listOfAddress;
+
 }

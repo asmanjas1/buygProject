@@ -37,8 +37,8 @@ public class ConsumerEntity {
 	private String name;
 	@Column(name = "email")
 	private String email;
-	@Column(name = "phonenumber", columnDefinition = "int(10)")
-	private Long phoneNumber;
+	@Column(name = "phonenumber")
+	private String phoneNumber;
 	@JsonIgnore
 	@Column(name = "password")
 	private String password;

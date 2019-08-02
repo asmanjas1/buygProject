@@ -18,7 +18,6 @@ import com.buyg.beans.Consumer;
 import com.buyg.beans.ConsumerAddress;
 import com.buyg.service.consumer.ConsumerService;
 
-
 @RequestMapping(value = "/consumerController")
 @RestController
 public class ConsumerController {
@@ -28,6 +27,7 @@ public class ConsumerController {
 
 	@PostMapping(value = "/signUp")
 	public Map<String, Object> doSignUp(@RequestBody Consumer consumer) throws Exception {
+		System.out.println(consumer.toString());
 		return consumerService.signUp(consumer);
 	}
 
@@ -52,14 +52,14 @@ public class ConsumerController {
 		System.out.println(consumerId);
 		return null;
 	}
-	
+
 	@PutMapping("/consumerUpdate/{id}")
 	public Map<String, Object> updateStudent(@RequestBody Consumer consumer, @PathVariable Integer id) {
 		return consumerService.updateConsumer(consumer, id);
 	}
 
 	@PutMapping("/consumerPasswordUpdate/{id}")
-	public Map<String, Object> updatePassword(@RequestBody CommonBean bean, @PathVariable Integer id){
-		return consumerService.updatePassword(bean,id);
+	public Map<String, Object> updatePassword(@RequestBody CommonBean bean, @PathVariable Integer id) {
+		return consumerService.updatePassword(bean, id);
 	}
 }

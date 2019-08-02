@@ -2,13 +2,11 @@ package com.buyg.entity;
 
 import java.util.Date;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -33,8 +31,8 @@ public class CarwasherEntity {
 	private String name;
 	@Column(name = "email")
 	private String email;
-	@Column(name = "phonenumber", columnDefinition = "int(10)")
-	private Long phoneNumber;
+	@Column(name = "phonenumber")
+	private String phoneNumber;
 	@JsonIgnore
 	@Column(name = "password")
 	private String password;
@@ -46,7 +44,7 @@ public class CarwasherEntity {
 	@Column(name = "lastupdatedate")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date lastUpdateDate;
-	@JoinColumn(name = "addressid", unique = true)
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne(mappedBy = "carwasherEntity")
 	private CarwasherAddressEntity carwasherAddressEntity;
+
 }
