@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.buyg.beans.CommonBean;
-import com.buyg.beans.Shop;
-import com.buyg.beans.ShopAddress;
+import com.buyg.beans.Carwasher;
+import com.buyg.beans.CarwasherAddress;
 import com.buyg.service.shop.ShopService;
 
 @RequestMapping(value = "/shopController")
@@ -24,17 +24,17 @@ public class ShopController {
 	private ShopService shopService;
 
 	@PostMapping(value = "/signUp")
-	public Map<String, Object> doSignUp(@RequestBody Shop shop) throws Exception {
+	public Map<String, Object> doSignUp(@RequestBody Carwasher shop) throws Exception {
 		return shopService.signUp(shop);
 	}
 
 	@PostMapping(value = "/login")
-	public Map<String, Object> doLogin(@RequestBody Shop shop) throws Exception {
+	public Map<String, Object> doLogin(@RequestBody Carwasher shop) throws Exception {
 		return shopService.doLogin(shop);
 	}
 
 	@PostMapping(value = "/saveaddress")
-	public Map<String, Object> saveAddress(@RequestBody ShopAddress shopAddress) throws Exception {
+	public Map<String, Object> saveAddress(@RequestBody CarwasherAddress shopAddress) throws Exception {
 		return shopService.saveAddress(shopAddress);
 	}
 
@@ -44,7 +44,7 @@ public class ShopController {
 	}
 	
 	@PutMapping("/shopUpdate/{id}")
-	public Map<String, Object> updateStudent(@RequestBody Shop shop, @PathVariable Integer id) {
+	public Map<String, Object> updateStudent(@RequestBody Carwasher shop, @PathVariable Integer id) {
 		return shopService.updateShop(shop, id);
 	}
 

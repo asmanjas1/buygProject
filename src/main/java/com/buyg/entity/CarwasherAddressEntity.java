@@ -15,15 +15,13 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Data;
 
 @Entity
-@Table(name = "shopaddress")
+@Table(name = "carwasheraddress")
 @Data
-public class ShopAddressEntity {
+public class CarwasherAddressEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "addressid")
 	private Integer addressId;
-	@Column(name = "shopname")
-	private String shopName;
 	@Column(name = "addressline")
 	private String addressLine;
 	@Column(name = "locality")
@@ -34,12 +32,4 @@ public class ShopAddressEntity {
 	private String state;
 	@Column(name = "pincode")
 	private Integer pincode;
-	@Column(name = "longitude")
-	private Double longitude;
-	@Column(name = "latitude")
-	private Double latitude;
-	@OneToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name = "shopid")
-	@JsonBackReference
-	private ShopEntity shopEntity;
 }

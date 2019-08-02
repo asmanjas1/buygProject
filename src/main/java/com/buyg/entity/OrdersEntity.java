@@ -31,15 +31,13 @@ public class OrdersEntity {
 	private Date orderCompleteDate;
 	@Column(name = "orderamount")
 	private Double orderAmount;
-	@Column(name = "orderitems")
-	private String orderItems;
 	@Column(name = "orderstatus")
 	private String orderStatus;
 	@ManyToOne
 	@JoinColumn(name = "consumerid")
 	private ConsumerEntity consumerEntity;
 	@ManyToOne
-	@JoinColumn(name = "shopid")
-	private ShopEntity shopEntity;
+	@JoinColumn(name = "carwasherid")
+	private CarwasherEntity carwasherEntity;
 
 }

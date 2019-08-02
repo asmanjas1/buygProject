@@ -10,9 +10,8 @@ public class Orders {
 	private Date orderDate;
 	private Date orderCompletedDate;
 	private Double orderAmount;
-	private String orderItmes;
 	private String orderStatus;
 	private Consumer consumer;
-	private Shop shop;
+	private Carwasher carwasher;
 
 }

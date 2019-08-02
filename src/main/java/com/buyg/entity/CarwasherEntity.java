@@ -23,15 +23,15 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 
 @Entity
-@Table(name = "shop")
+@Table(name = "carwasher")
 @Data
-public class ShopEntity {
+public class CarwasherEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "shopid")
-	private Integer shopId;
-	@Column(name = "ownername")
-	private String ownerName;
+	@Column(name = "carwasherid")
+	private Integer carwasherId;
+	@Column(name = "name")
+	private String name;
 	@Column(name = "email")
 	private String email;
 	@Column(name = "phonenumber")
@@ -47,7 +47,7 @@ public class ShopEntity {
 	@Column(name = "lastupdatedate")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date lastUpdateDate;
-	@OneToOne(cascade = CascadeType.ALL, mappedBy = "shopEntity", fetch = FetchType.LAZY)
-	@JsonManagedReference
-	private ShopAddressEntity shopAddressEnitiy;
+	@JoinColumn(name = "addressid", unique = true)
+	@OneToOne(cascade = CascadeType.ALL)
+	private CarwasherAddressEntity carwasherAddressEntity;
 }
