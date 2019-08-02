@@ -12,8 +12,8 @@ import com.buyg.beans.CarwasherAddress;
 public class ShopValidation {
 
 	public boolean validateShopForSignUp(Carwasher shop) {
-		if (nonNull(shop) && !isNullOrEmpty(shop.getEmail()) && !isNullOrEmpty(shop.getOwnerName())
-				&& !isNullOrEmpty(shop.getPassword()) && !isNullOrEmpty(String.valueOf(shop.getPhoneNumber()))) {
+		if (nonNull(shop) && !isNullOrEmpty(shop.getEmail()) && !isNullOrEmpty(shop.getPassword())
+				&& !isNullOrEmpty(String.valueOf(shop.getPhoneNumber()))) {
 			return true;
 		}
 		return false;

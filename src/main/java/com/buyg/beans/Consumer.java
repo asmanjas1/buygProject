@@ -14,5 +14,6 @@ public class Consumer {
 	private String password;
 	private Date registrationDate;
 	private Date lastUpdateDate;
+	private Vehicle vehicle;
 	private List<ConsumerAddress> listOfAddress;
 }

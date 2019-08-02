@@ -3,13 +3,16 @@ package com.buyg.entity;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -34,7 +37,7 @@ public class ConsumerEntity {
 	private String name;
 	@Column(name = "email")
 	private String email;
-	@Column(name = "phonenumber")
+	@Column(name = "phonenumber", columnDefinition = "int(10)")
 	private Long phoneNumber;
 	@JsonIgnore
 	@Column(name = "password")
@@ -47,9 +50,12 @@ public class ConsumerEntity {
 	@Column(name = "lastupdatedate")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date lastUpdateDate;
+	@JoinColumn(name = "vehicleid")
+	@OneToOne(cascade = CascadeType.ALL)
+	private VehicleEntity VehicleEntity;
 	@OneToMany(mappedBy = "consumerEntity", fetch = FetchType.EAGER)
 	@Column(nullable = true)
-    @JsonManagedReference
+	@JsonManagedReference
 	private List<ConsumerAddressEntity> consumerAddressEntities;
-	
+
 }

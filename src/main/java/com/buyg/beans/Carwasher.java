@@ -11,7 +11,6 @@ public class Carwasher {
 	private String email;
 	private Long phoneNumber;
 	private String password;
-	private CarwasherAddress address;
 	private Date registrationDate;
 	private Date lastUpdateDate;
 	private CarwasherAddress carwasherAddress;

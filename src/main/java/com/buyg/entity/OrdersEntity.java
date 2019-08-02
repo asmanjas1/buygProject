@@ -27,8 +27,8 @@ public class OrdersEntity {
 	@Column(name = "orderdate")
 	private Date orderDate;
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "ordercompletedate")
-	private Date orderCompleteDate;
+	@Column(name = "ordercompleteddate")
+	private Date orderCompletedDate;
 	@Column(name = "orderamount")
 	private Double orderAmount;
 	@Column(name = "orderstatus")

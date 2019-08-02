@@ -1,4 +1,4 @@
-package com.buyg.repository.shop;
+package com.buyg.repository.carwasher;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -12,8 +12,8 @@ public interface ShopRepository extends JpaRepository<CarwasherEntity, Integer> 
 
 	@Transactional(readOnly = true)
 	CarwasherEntity findByEmailAndPassword(String email, String password);
-	
+
 	@Transactional(readOnly = true)
-	CarwasherEntity findByShopId(Integer shopId);
+	CarwasherEntity findBycarwasherId(Integer carwasherId);
 
 }

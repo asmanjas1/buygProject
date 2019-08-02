@@ -11,15 +11,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.buyg.beans.CommonBean;
 import com.buyg.beans.Carwasher;
 import com.buyg.beans.CarwasherAddress;
-import com.buyg.service.shop.ShopService;
+import com.buyg.beans.CommonBean;
+import com.buyg.service.carwasher.ShopService;
 
-@RequestMapping(value = "/shopController")
+@RequestMapping(value = "/carwasherController")
 @RestController
-public class ShopController {
-	
+public class CarwasherController {
+
 	@Autowired
 	private ShopService shopService;
 
@@ -40,17 +40,20 @@ public class ShopController {
 
 	@GetMapping(value = "/getAddress/{shopId}")
 	public Map<String, Object> getAddressesForshop(@PathVariable("shopId") Integer shopId) throws Exception {
-		return shopService.getAddressForshopId(shopId);
+		// return shopService.getAddressForshopId(shopId);
+		return null;
 	}
-	
+
 	@PutMapping("/shopUpdate/{id}")
 	public Map<String, Object> updateStudent(@RequestBody Carwasher shop, @PathVariable Integer id) {
-		return shopService.updateShop(shop, id);
+		// return shopService.updateShop(shop, id);
+		return null;
 	}
 
 	@PutMapping("/shopPasswordUpdate/{id}")
-	public Map<String, Object> updatePassword(@RequestBody CommonBean bean, @PathVariable Integer id){
-		return shopService.updatePassword(bean,id);
+	public Map<String, Object> updatePassword(@RequestBody CommonBean bean, @PathVariable Integer id) {
+		// return shopService.updatePassword(bean,id);
+		return null;
 	}
-	
+
 }
