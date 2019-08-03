@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.buyg.beans.CommonBean;
 import com.buyg.beans.Consumer;
 import com.buyg.beans.ConsumerAddress;
+import com.buyg.beans.Vehicle;
 import com.buyg.service.consumer.ConsumerService;
 
 @RequestMapping(value = "/consumerController")
@@ -39,6 +40,11 @@ public class ConsumerController {
 	@PostMapping(value = "/saveaddress")
 	public Map<String, Object> saveAddress(@RequestBody ConsumerAddress consumerAddress) throws Exception {
 		return consumerService.saveAddress(consumerAddress);
+	}
+
+	@PostMapping(value = "/saveVehicle")
+	public Map<String, Object> saveVehicle(@RequestBody Vehicle vehicle) throws Exception {
+		return consumerService.saveVehicle(vehicle);
 	}
 
 	@GetMapping(value = "/getAddress/{consumerId}")

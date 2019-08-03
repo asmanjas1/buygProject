@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.buyg.beans.Consumer;
 import com.buyg.beans.ConsumerAddress;
+import com.buyg.beans.Vehicle;
 
 @Service
 public class ConsumerValidation {
@@ -24,6 +25,15 @@ public class ConsumerValidation {
 		if (nonNull(consumerAddress) && !isNullOrEmpty(consumerAddress.getAddressLine())
 				&& !isNullOrEmpty(consumerAddress.getLocality()) && !isNullOrEmpty(consumerAddress.getCity())
 				&& !isNullOrEmpty(consumerAddress.getState()) && nonNull(consumerAddress.getPincode())) {
+			return true;
+		}
+		return false;
+	}
+
+	public boolean validateConsumerVehicle(Vehicle vehicle) {
+		if (nonNull(vehicle) && nonNull(vehicle.getConsumer().getConsumerId())
+				&& !isNullOrEmpty(vehicle.getVehicleName()) && !isNullOrEmpty(vehicle.getVehicleNumber())
+				&& !isNullOrEmpty(vehicle.getVehicleType())) {
 			return true;
 		}
 		return false;

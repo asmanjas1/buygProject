@@ -6,7 +6,8 @@ import lombok.Data;
 public class Vehicle {
 	private Integer vehicleId;
 	private String vehicleName;
-	private String vechileNumber;
-	private String vechileType;
+	private String vehicleNumber;
+	private String vehicleType;
+	private Consumer consumer;
 
 }
