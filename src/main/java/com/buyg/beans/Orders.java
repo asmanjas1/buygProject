@@ -11,7 +11,10 @@ public class Orders {
 	private Date orderCompletedDate;
 	private Double orderAmount;
 	private String orderStatus;
+	private String orderPaymentStatus;
 	private Consumer consumer;
-	private Carwasher carwasher;
 
+	private Integer orderCarwasherId;
+	private Integer orderVehicleId;
+	private Integer orderAddressId;
 }

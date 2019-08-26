@@ -1,6 +1,5 @@
 package com.buyg.beans;
 
-import java.util.Date;
 import java.util.List;
 
 import lombok.Data;
@@ -12,8 +11,8 @@ public class Consumer {
 	private String email;
 	private String phoneNumber;
 	private String password;
-	private Date registrationDate;
-	private Date lastUpdateDate;
+	private String registrationDate;
+	private String lastUpdateDate;
 	private List<Vehicle> listOfVehicle;
 	private List<ConsumerAddress> listOfAddress;
 

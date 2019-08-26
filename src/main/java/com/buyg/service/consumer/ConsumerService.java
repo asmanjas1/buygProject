@@ -22,6 +22,7 @@ import com.buyg.repository.consumer.ConsumerRepository;
 import com.buyg.repository.consumer.ConsumerVehicleRepository;
 import com.buyg.utils.BuyGConstants;
 import com.buyg.validations.ConsumerValidation;
+import com.google.gson.Gson;
 
 @Service
 public class ConsumerService {
@@ -36,6 +37,8 @@ public class ConsumerService {
 
 	@Autowired
 	private ConsumerVehicleRepository consumerVehicleRepository;
+
+	public static Gson gson = new Gson();
 
 	public Map<String, Object> signUp(Consumer consumer) {
 		Map<String, Object> responseMap = new HashMap<>();
@@ -112,6 +115,7 @@ public class ConsumerService {
 			vehicleEnt = consumerVehicleRepository.saveAndFlush(vehicleEntity);
 			responseCode = 200;
 			resMsg = "Successfully Added consumer vehicle";
+
 		} else {
 			responseCode = 400;
 			resMsg = "consumer validation failed";
@@ -139,8 +143,8 @@ public class ConsumerService {
 						consumer.setName(consumerEntity.getName());
 						consumer.setEmail(consumerEntity.getEmail());
 						consumer.setPhoneNumber(consumerEntity.getPhoneNumber());
-						consumer.setRegistrationDate(consumerEntity.getRegistrationDate());
-						consumer.setLastUpdateDate(consumerEntity.getLastUpdateDate());
+						consumer.setRegistrationDate(consumerEntity.getRegistrationDate().toString());
+						consumer.setLastUpdateDate(consumerEntity.getLastUpdateDate().toString());
 						List<ConsumerAddress> list = new ArrayList<ConsumerAddress>();
 						List<ConsumerAddressEntity> listFromDatabase = consumerEntity.getConsumerAddressEntities();
 						for (ConsumerAddressEntity cde : listFromDatabase) {
@@ -184,7 +188,69 @@ public class ConsumerService {
 			e.printStackTrace();
 		}
 		consumer.setPassword(null);
-		responseMap.put(BuyGConstants.DATA_STRING, consumer);
+		responseMap.put(BuyGConstants.DATA_STRING, gson.toJson(consumer));
+		responseMap.put(BuyGConstants.RESPONSE_CODE_STRING, responseCode);
+		responseMap.put(BuyGConstants.RESPONSE_MSG, resMsg);
+		return responseMap;
+	}
+
+	public Map<String, Object> getConsumerById(Integer id) {
+		Map<String, Object> responseMap = new HashMap<>();
+		int responseCode = 500;
+		String resMsg = "Error Occured";
+		Consumer consumer = new Consumer();
+		try {
+			if (id != null) {
+				responseCode = 900;
+				resMsg = "General Error";
+				ConsumerEntity consumerEntity = consumerRepository.findByConsumerId(id);
+				if (nonNull(consumerEntity)) {
+					consumer.setConsumerId(consumerEntity.getConsumerId());
+					consumer.setName(consumerEntity.getName());
+					consumer.setEmail(consumerEntity.getEmail());
+					consumer.setPhoneNumber(consumerEntity.getPhoneNumber());
+					consumer.setRegistrationDate(consumerEntity.getRegistrationDate().toString());
+					consumer.setLastUpdateDate(consumerEntity.getLastUpdateDate().toString());
+					List<ConsumerAddress> list = new ArrayList<ConsumerAddress>();
+					List<ConsumerAddressEntity> listFromDatabase = consumerEntity.getConsumerAddressEntities();
+					for (ConsumerAddressEntity cde : listFromDatabase) {
+						ConsumerAddress caa = new ConsumerAddress();
+						caa.setAddressId(cde.getAddressId());
+						caa.setAddressLine(cde.getAddressLine());
+						caa.setLocality(cde.getLocality());
+						caa.setState(cde.getState());
+						caa.setCity(cde.getCity());
+						caa.setPincode(cde.getPincode());
+						list.add(caa);
+					}
+					consumer.setListOfAddress(list);
+
+					List<VehicleEntity> listVehicleEntity = consumerEntity.getVehicleEntities();
+					List<Vehicle> list1 = new ArrayList<>();
+					if (listVehicleEntity != null) {
+						for (VehicleEntity ve : listVehicleEntity) {
+							Vehicle vehicle = new Vehicle();
+							vehicle.setVehicleId(ve.getVehicleId());
+							vehicle.setVehicleName(ve.getVehicleName());
+							vehicle.setVehicleNumber(ve.getVehicleNumber());
+							vehicle.setVehicleType(ve.getVehicleType());
+							list1.add(vehicle);
+						}
+
+						consumer.setListOfVehicle(list1);
+					}
+					responseCode = 200;
+					resMsg = "Successfully LoggedIn";
+				}
+			} else {
+				responseCode = 400;
+				resMsg = "login validation failed";
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		consumer.setPassword(null);
+		responseMap.put(BuyGConstants.DATA_STRING, gson.toJson(consumer));
 		responseMap.put(BuyGConstants.RESPONSE_CODE_STRING, responseCode);
 		responseMap.put(BuyGConstants.RESPONSE_MSG, resMsg);
 		return responseMap;

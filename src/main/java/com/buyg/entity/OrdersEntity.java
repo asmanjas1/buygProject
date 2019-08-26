@@ -13,6 +13,9 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
 import lombok.Data;
 
 @Data
@@ -23,9 +26,11 @@ public class OrdersEntity {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "orderid")
 	private Integer orderId;
+	@CreationTimestamp
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "orderdate")
 	private Date orderDate;
+	@UpdateTimestamp
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "ordercompleteddate")
 	private Date orderCompletedDate;
@@ -33,11 +38,17 @@ public class OrdersEntity {
 	private Double orderAmount;
 	@Column(name = "orderstatus")
 	private String orderStatus;
+	@Column(name = "orderpaymentstatus")
+	private String orderPaymentStatus;
 	@ManyToOne
 	@JoinColumn(name = "consumerid")
 	private ConsumerEntity consumerEntity;
-	@ManyToOne
-	@JoinColumn(name = "carwasherid")
-	private CarwasherEntity carwasherEntity;
+
+	@Column(name = "ordercarwasherid")
+	private Integer orderCarwasherId;
+	@Column(name = "ordervehicleid")
+	private Integer orderVehicleId;
+	@Column(name = "orderaddressid")
+	private Integer orderAddressId;
 
 }

@@ -39,12 +39,28 @@ public class ConsumerController {
 
 	@PostMapping(value = "/saveaddress")
 	public Map<String, Object> saveAddress(@RequestBody ConsumerAddress consumerAddress) throws Exception {
-		return consumerService.saveAddress(consumerAddress);
+		Map<String, Object> map = consumerService.saveAddress(consumerAddress);
+		Map<String, Object> map1 = consumerService.getConsumerById(consumerAddress.getConsumer().getConsumerId());
+		if ((int) map1.get("resCode") == 200) {
+			map.put("data", map1.get("data"));
+		}
+		return map;
 	}
 
 	@PostMapping(value = "/saveVehicle")
 	public Map<String, Object> saveVehicle(@RequestBody Vehicle vehicle) throws Exception {
-		return consumerService.saveVehicle(vehicle);
+		Map<String, Object> map = consumerService.saveVehicle(vehicle);
+		Map<String, Object> map1 = consumerService.getConsumerById(vehicle.getConsumer().getConsumerId());
+		if ((int) map1.get("resCode") == 200) {
+			map.put("data", map1.get("data"));
+		}
+
+		return map;
+	}
+
+	@GetMapping(value = "/getConsumerById/{consumerId}")
+	public Map<String, Object> getConsumerByID(@PathVariable("consumerId") Integer consumerId) throws Exception {
+		return consumerService.getConsumerById(consumerId);
 	}
 
 	@GetMapping(value = "/getAddress/{consumerId}")
