@@ -44,6 +44,8 @@ public class OrderService {
 
 			ordersEntity.setOrderVehicleId(orders.getOrderVehicleId());
 			ordersEntity.setOrderAddressId(orders.getOrderAddressId());
+			ordersEntity.setOrderAddressCity(orders.getOrderAddressCity().toLowerCase());
+			ordersEntity.setOrderAddressState(orders.getOrderAddressState().toLowerCase());
 
 			ordersEnt = ordersRepository.saveAndFlush(ordersEntity);
 			// savedOrder.setCarwasher(ordersEnt.ge);
@@ -81,6 +83,82 @@ public class OrderService {
 			responseCode = 200;
 			resMsg = "Success";
 		} catch (Exception e) {
+		}
+		responseMap.put(BuyGConstants.DATA_STRING, orderList);
+		responseMap.put(BuyGConstants.RESPONSE_CODE_STRING, responseCode);
+		responseMap.put(BuyGConstants.RESPONSE_MSG, resMsg);
+		return responseMap;
+	}
+
+	public Map<String, Object> getCompletedOrdersForCarwasher(Integer carwasherId) {
+		Map<String, Object> responseMap = new HashMap<>();
+		int responseCode = 500;
+		String resMsg = "Error Occured";
+		List<OrdersEntity> ordersEntity = new ArrayList<>();
+		List<String> orderList = new ArrayList<>();
+		try {
+			ordersEntity = ordersRepository.fetchOrdersForCwarwasherByStatus(carwasherId, "Completed");
+			Orders order = new Orders();
+			for (OrdersEntity oe : ordersEntity) {
+				order.setOrderId(oe.getOrderId());
+				order.setOrderDate(oe.getOrderDate());
+				orderList.add(gson.toJson(order));
+			}
+			responseCode = 200;
+			resMsg = "Success";
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		responseMap.put(BuyGConstants.DATA_STRING, orderList);
+		responseMap.put(BuyGConstants.RESPONSE_CODE_STRING, responseCode);
+		responseMap.put(BuyGConstants.RESPONSE_MSG, resMsg);
+		return responseMap;
+	}
+
+	public Map<String, Object> getInProgressOrdersForCarwasher(Integer carwasherId) {
+		Map<String, Object> responseMap = new HashMap<>();
+		int responseCode = 500;
+		String resMsg = "Error Occured";
+		List<OrdersEntity> ordersEntity = new ArrayList<>();
+		List<String> orderList = new ArrayList<>();
+		try {
+			ordersEntity = ordersRepository.fetchOrdersForCwarwasherByStatus(carwasherId, "In Progress");
+			Orders order = new Orders();
+			for (OrdersEntity oe : ordersEntity) {
+				order.setOrderId(oe.getOrderId());
+				order.setOrderDate(oe.getOrderDate());
+				orderList.add(gson.toJson(order));
+			}
+			responseCode = 200;
+			resMsg = "Success";
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		responseMap.put(BuyGConstants.DATA_STRING, orderList);
+		responseMap.put(BuyGConstants.RESPONSE_CODE_STRING, responseCode);
+		responseMap.put(BuyGConstants.RESPONSE_MSG, resMsg);
+		return responseMap;
+	}
+
+	public Map<String, Object> getAllNewOrdersForCarwasher(Integer carwasherId, String city, String state) {
+		Map<String, Object> responseMap = new HashMap<>();
+		int responseCode = 500;
+		String resMsg = "Error Occured";
+		List<OrdersEntity> ordersEntity = new ArrayList<>();
+		List<String> orderList = new ArrayList<>();
+		try {
+			ordersEntity = ordersRepository.fetchAllNewOrderForCarwasher(city.toLowerCase(), state.toLowerCase(),
+					"New");
+			Orders order = new Orders();
+			for (OrdersEntity oe : ordersEntity) {
+				order.setOrderId(oe.getOrderId());
+				order.setOrderDate(oe.getOrderDate());
+				orderList.add(gson.toJson(order));
+			}
+			responseCode = 200;
+			resMsg = "Success";
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 		responseMap.put(BuyGConstants.DATA_STRING, orderList);
 		responseMap.put(BuyGConstants.RESPONSE_CODE_STRING, responseCode);

@@ -17,4 +17,6 @@ public class Orders {
 	private Integer orderCarwasherId;
 	private Integer orderVehicleId;
 	private Integer orderAddressId;
+	private String orderAddressCity;
+	private String orderAddressState;
 }

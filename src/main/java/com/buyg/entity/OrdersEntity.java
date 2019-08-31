@@ -50,5 +50,9 @@ public class OrdersEntity {
 	private Integer orderVehicleId;
 	@Column(name = "orderaddressid")
 	private Integer orderAddressId;
+	@Column(name = "orderaddresscity")
+	private String orderAddressCity;
+	@Column(name = "orderaddressstate")
+	private String orderAddressState;
 
 }

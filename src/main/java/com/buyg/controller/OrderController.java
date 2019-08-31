@@ -31,4 +31,22 @@ public class OrderController {
 		return orderService.getOrdersForConsumer(consumerId);
 	}
 
+	@GetMapping(value = "/getCompletedOrdersForCarwasher/{carwasherId}")
+	public Map<String, Object> getCompletedOrdersForCarwasher(@PathVariable("carwasherId") Integer carwasherId)
+			throws Exception {
+		return orderService.getCompletedOrdersForCarwasher(carwasherId);
+	}
+
+	@GetMapping(value = "/getInProgressOrdersForCarwasher/{carwasherId}")
+	public Map<String, Object> getInProgressOrdersForCarwasher(@PathVariable("carwasherId") Integer carwasherId)
+			throws Exception {
+		return orderService.getInProgressOrdersForCarwasher(carwasherId);
+	}
+
+	@GetMapping(value = "/getAllNewOrdersForCarwasher/{carwasherId}/{city}/{state}")
+	public Map<String, Object> getAllNewOrdersForCarwasher(@PathVariable("carwasherId") Integer carwasherId,
+			@PathVariable("city") String city, @PathVariable("state") String state) throws Exception {
+		return orderService.getAllNewOrdersForCarwasher(carwasherId, city, state);
+	}
+
 }

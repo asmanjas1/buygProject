@@ -7,7 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.buyg.entity.CarwasherEntity;
 
 @Repository
-public interface ShopRepository extends JpaRepository<CarwasherEntity, Integer> {
+public interface CarwasherRepository extends JpaRepository<CarwasherEntity, Integer> {
 	CarwasherEntity findByEmail(String email);
 
 	@Transactional(readOnly = true)

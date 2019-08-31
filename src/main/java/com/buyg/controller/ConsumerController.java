@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.buyg.beans.CommonBean;
 import com.buyg.beans.Consumer;
 import com.buyg.beans.ConsumerAddress;
+import com.buyg.beans.ConsumerFirebaseBean;
 import com.buyg.beans.Vehicle;
 import com.buyg.service.consumer.ConsumerService;
 
@@ -35,6 +36,12 @@ public class ConsumerController {
 	@PostMapping(value = "/login")
 	public Map<String, Object> doLogin(@RequestBody Consumer consumer) throws Exception {
 		return consumerService.doLogin(consumer);
+	}
+
+	@PostMapping(value = "/saveFirebaseToken")
+	public Map<String, Object> saveFirebaseToken(@RequestBody ConsumerFirebaseBean consumerFirebaseBean)
+			throws Exception {
+		return consumerService.saveFirebaseToken(consumerFirebaseBean);
 	}
 
 	@PostMapping(value = "/saveaddress")

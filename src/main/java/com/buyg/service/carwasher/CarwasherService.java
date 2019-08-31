@@ -12,8 +12,8 @@ import com.buyg.beans.Carwasher;
 import com.buyg.beans.CarwasherAddress;
 import com.buyg.entity.CarwasherAddressEntity;
 import com.buyg.entity.CarwasherEntity;
-import com.buyg.repository.carwasher.ShopAddressRepository;
-import com.buyg.repository.carwasher.ShopRepository;
+import com.buyg.repository.carwasher.CarwasherAddressRepository;
+import com.buyg.repository.carwasher.CarwasherRepository;
 import com.buyg.utils.BuyGConstants;
 import com.buyg.validations.ShopValidation;
 
@@ -23,10 +23,10 @@ public class CarwasherService {
 	private ShopValidation shopValidation;
 
 	@Autowired
-	private ShopRepository shopRepository;
+	private CarwasherRepository carwasherRepository;
 
 	@Autowired
-	private ShopAddressRepository shopAddressRepository;
+	private CarwasherAddressRepository carwasherAddressRepository;
 
 	public Map<String, Object> signUp(Carwasher shop) {
 		Map<String, Object> responseMap = new HashMap<>();
@@ -34,14 +34,14 @@ public class CarwasherService {
 		String resMsg = "Error Occured";
 		CarwasherEntity savedShopEntity = null;
 		if (shopValidation.validateShopForSignUp(shop)) {
-			CarwasherEntity se = shopRepository.findByEmail(shop.getEmail());
+			CarwasherEntity se = carwasherRepository.findByEmail(shop.getEmail());
 			if (se == null) {
 				CarwasherEntity shopEntity = new CarwasherEntity();
 				shopEntity.setName(shop.getName());
 				shopEntity.setEmail(shop.getEmail());
 				shopEntity.setPhoneNumber(shop.getPhoneNumber());
 				shopEntity.setPassword(shop.getPassword());
-				savedShopEntity = shopRepository.saveAndFlush(shopEntity);
+				savedShopEntity = carwasherRepository.saveAndFlush(shopEntity);
 				responseCode = 200;
 				resMsg = "Successfully Added User";
 			} else {
@@ -68,7 +68,7 @@ public class CarwasherService {
 			if (nonNull(email) && nonNull(password)) {
 				responseCode = 900;
 				resMsg = "General Error";
-				CarwasherEntity shopEntity = shopRepository.findByEmailAndPassword(email, password);
+				CarwasherEntity shopEntity = carwasherRepository.findByEmailAndPassword(email, password);
 				if (shopEntity != null) {
 					shop.setCarwasherId(shopEntity.getCarwasherId());
 					shop.setName(shopEntity.getName());
@@ -129,7 +129,7 @@ public class CarwasherService {
 				carwasherEntity.setPhoneNumber(shopAddress.getCarwasher().getPhoneNumber());
 
 				addressEntity.setCarwasherEntity(carwasherEntity);
-				add = shopAddressRepository.saveAndFlush(addressEntity);
+				add = carwasherAddressRepository.saveAndFlush(addressEntity);
 				responseCode = 200;
 				resMsg = "Successfully Added carwasher address";
 			} else {
@@ -151,7 +151,7 @@ public class CarwasherService {
 	 * CarwasherAddress shopAddress = null; if (shopId != null) {
 	 * CarwasherEntity shopEntity = new CarwasherEntity();
 	 * shopEntity.setShopId(shopId); CarwasherAddressEntity add =
-	 * shopAddressRepository.findByShopEntity(shopEntity); shopAddress = new
+	 * carwasherAddressRepository.findByShopEntity(shopEntity); shopAddress = new
 	 * CarwasherAddress(); shopAddress.setAddressId(add.getAddressId());
 	 * shopAddress.setAddressLine(add.getAddressLine());
 	 * shopAddress.setCity(add.getCity());
@@ -168,11 +168,11 @@ public class CarwasherService {
 	/*
 	 * public Map<String, Object> updateShop(Carwasher shop, Integer id) {
 	 * Map<String, Object> responseMap = new HashMap<>(); int responseCode = 0;
-	 * CarwasherEntity shopEntity = shopRepository.findByShopId(id); if
+	 * CarwasherEntity shopEntity = carwasherRepository.findByShopId(id); if
 	 * (shopEntity != null) { if (shop.getOwnerName() != null)
 	 * shopEntity.setOwnerName(shop.getOwnerName()); if (shop.getPhoneNumber()
 	 * != null) shopEntity.setPhoneNumber(shop.getPhoneNumber());
-	 * shopEntity.setShopId(id); shopRepository.save(shopEntity); responseCode =
+	 * shopEntity.setShopId(id); carwasherRepository.save(shopEntity); responseCode =
 	 * 2; } responseMap.put(BuyGConstants.DATA_STRING, shopEntity);
 	 * responseMap.put(BuyGConstants.RESPONSE_CODE_STRING, responseCode); return
 	 * responseMap; }
@@ -181,12 +181,12 @@ public class CarwasherService {
 	/*
 	 * public Map<String, Object> updatePassword(CommonBean bean, Integer id) {
 	 * Map<String, Object> responseMap = new HashMap<>(); int responseCode = 0;
-	 * CarwasherEntity shopEntity = shopRepository.findByShopId(id); try { if
+	 * CarwasherEntity shopEntity = carwasherRepository.findByShopId(id); try { if
 	 * (bean.getOldPassword() != null && bean.getNewPassword() != null) {
 	 * responseCode = 1; if (shopEntity != null) { String oldPassword =
 	 * shopEntity.getPassword(); if (bean.getOldPassword().equals(oldPassword))
 	 * { shopEntity.setPassword(bean.getNewPassword());
-	 * shopEntity.setShopId(id); shopRepository.saveAndFlush(shopEntity);
+	 * shopEntity.setShopId(id); carwasherRepository.saveAndFlush(shopEntity);
 	 * responseCode = 2; } } } } catch (Exception e) { e.printStackTrace(); }
 	 * responseMap.put(BuyGConstants.DATA_STRING, shopEntity);
 	 * responseMap.put(BuyGConstants.RESPONSE_CODE_STRING, responseCode); return

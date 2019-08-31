@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import com.buyg.entity.CarwasherAddressEntity;
 
 @Repository
-public interface ShopAddressRepository extends JpaRepository<CarwasherAddressEntity, Integer> {
+public interface CarwasherAddressRepository extends JpaRepository<CarwasherAddressEntity, Integer> {
 
 }

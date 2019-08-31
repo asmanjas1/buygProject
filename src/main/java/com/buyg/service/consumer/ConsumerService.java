@@ -13,11 +13,14 @@ import org.springframework.stereotype.Service;
 import com.buyg.beans.CommonBean;
 import com.buyg.beans.Consumer;
 import com.buyg.beans.ConsumerAddress;
+import com.buyg.beans.ConsumerFirebaseBean;
 import com.buyg.beans.Vehicle;
 import com.buyg.entity.ConsumerAddressEntity;
 import com.buyg.entity.ConsumerEntity;
+import com.buyg.entity.ConsumerFirebaseEntity;
 import com.buyg.entity.VehicleEntity;
 import com.buyg.repository.consumer.ConsumerAddressRepository;
+import com.buyg.repository.consumer.ConsumerFirebaseRepository;
 import com.buyg.repository.consumer.ConsumerRepository;
 import com.buyg.repository.consumer.ConsumerVehicleRepository;
 import com.buyg.utils.BuyGConstants;
@@ -37,6 +40,9 @@ public class ConsumerService {
 
 	@Autowired
 	private ConsumerVehicleRepository consumerVehicleRepository;
+
+	@Autowired
+	private ConsumerFirebaseRepository consumerFirebaseRepository;
 
 	public static Gson gson = new Gson();
 
@@ -322,6 +328,29 @@ public class ConsumerService {
 		}
 		responseMap.put(BuyGConstants.DATA_STRING, consumerEntity);
 		responseMap.put(BuyGConstants.RESPONSE_CODE_STRING, responseCode);
+		return responseMap;
+	}
+
+	public Map<String, Object> saveFirebaseToken(ConsumerFirebaseBean consumerFirebaseBean) {
+		Map<String, Object> responseMap = new HashMap<>();
+		int responseCode = 500;
+		String resMsg = "Error Occured";
+		boolean success = false;
+		try {
+			ConsumerFirebaseEntity cfe = new ConsumerFirebaseEntity();
+			cfe.setConsumerFirebaseId(consumerFirebaseBean.getConsumerFirebaseId());
+			cfe.setFirebaseToken(consumerFirebaseBean.getFirebaseToken());
+
+			consumerFirebaseRepository.saveAndFlush(cfe);
+
+			responseCode = 200;
+			resMsg = "Successfully Added Consumer Firebase Token.";
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		responseMap.put(BuyGConstants.DATA_STRING, success);
+		responseMap.put(BuyGConstants.RESPONSE_CODE_STRING, responseCode);
+		responseMap.put(BuyGConstants.RESPONSE_MSG, resMsg);
 		return responseMap;
 	}
 
