@@ -9,9 +9,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.buyg.beans.Orders;
+import com.buyg.entity.CarwasherEntity;
+import com.buyg.entity.CarwasherFirebaseEntity;
 import com.buyg.entity.ConsumerEntity;
 import com.buyg.entity.OrdersEntity;
+import com.buyg.notification.SendNotifications;
+import com.buyg.repository.carwasher.CarwasherFirebaseRepository;
 import com.buyg.repository.orders.OrdersRepository;
+import com.buyg.service.carwasher.CarwasherService;
 import com.buyg.utils.BuyGConstants;
 import com.buyg.validations.OrderValidation;
 import com.google.gson.Gson;
@@ -26,6 +31,15 @@ public class OrderService {
 
 	@Autowired
 	private OrderValidation orderValidation;
+
+	@Autowired
+	private SendNotifications sendNotifications;
+
+	@Autowired
+	private CarwasherService carwasherService;
+
+	@Autowired
+	private CarwasherFirebaseRepository carwasherFirebaseRepository;
 
 	public Map<String, Object> placeOrder(Orders orders) {
 		Map<String, Object> responseMap = new HashMap<>();
@@ -51,6 +65,7 @@ public class OrderService {
 			// savedOrder.setCarwasher(ordersEnt.ge);
 			responseCode = 200;
 			resMsg = "Successfully placed order";
+			sendOrderNotifications(orders.getOrderAddressCity(), orders.getOrderAddressState());
 		} else {
 			responseCode = 400;
 			resMsg = "order validation failed";
@@ -60,6 +75,28 @@ public class OrderService {
 		responseMap.put(BuyGConstants.RESPONSE_CODE_STRING, responseCode);
 		responseMap.put(BuyGConstants.RESPONSE_MSG, resMsg);
 		return responseMap;
+	}
+
+	public void sendOrderNotifications(String city, String state) {
+		List<CarwasherEntity> list = carwasherService.getCarwahserByAddressMatching(city, state);
+		if (list.size() > 0) {
+			List<Integer> idList = new ArrayList<>();
+			for (CarwasherEntity ce : list) {
+				idList.add(ce.getCarwasherId());
+			}
+			List<CarwasherFirebaseEntity> cfeList = carwasherFirebaseRepository.findByconsumerFirebaseIdIn(idList);
+
+			if (cfeList.size() > 0) {
+				List<String> tokenList = new ArrayList<>();
+				for (CarwasherFirebaseEntity cfe : cfeList) {
+					tokenList.add(cfe.getFirebaseToken());
+				}
+				String[] item = tokenList.toArray(new String[tokenList.size()]);
+
+				sendNotifications.sendNotifications("New Order", "You got a new order.. click here to accept it.",
+						item);
+			}
+		}
 	}
 
 	public Map<String, Object> getOrdersForConsumer(Integer consumerId) {

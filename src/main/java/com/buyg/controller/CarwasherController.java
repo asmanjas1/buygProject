@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.buyg.beans.Carwasher;
 import com.buyg.beans.CarwasherAddress;
+import com.buyg.beans.CarwasherFirebasenBean;
 import com.buyg.beans.CommonBean;
 import com.buyg.service.carwasher.CarwasherService;
 
@@ -37,6 +38,12 @@ public class CarwasherController {
 	@PostMapping(value = "/saveaddress")
 	public Map<String, Object> saveAddress(@RequestBody CarwasherAddress shopAddress) throws Exception {
 		return carwasherService.saveAddress(shopAddress);
+	}
+
+	@PostMapping(value = "/saveFirebaseToken")
+	public Map<String, Object> saveFirebaseToken(@RequestBody CarwasherFirebasenBean carwasherFirebasenBean)
+			throws Exception {
+		return carwasherService.saveFirebaseToken(carwasherFirebasenBean);
 	}
 
 	@GetMapping(value = "/getAddress/{shopId}")

@@ -2,7 +2,9 @@ package com.buyg.service.carwasher;
 
 import static java.util.Objects.nonNull;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,9 +12,12 @@ import org.springframework.stereotype.Service;
 
 import com.buyg.beans.Carwasher;
 import com.buyg.beans.CarwasherAddress;
+import com.buyg.beans.CarwasherFirebasenBean;
 import com.buyg.entity.CarwasherAddressEntity;
 import com.buyg.entity.CarwasherEntity;
+import com.buyg.entity.CarwasherFirebaseEntity;
 import com.buyg.repository.carwasher.CarwasherAddressRepository;
+import com.buyg.repository.carwasher.CarwasherFirebaseRepository;
 import com.buyg.repository.carwasher.CarwasherRepository;
 import com.buyg.utils.BuyGConstants;
 import com.buyg.validations.ShopValidation;
@@ -27,6 +32,9 @@ public class CarwasherService {
 
 	@Autowired
 	private CarwasherAddressRepository carwasherAddressRepository;
+
+	@Autowired
+	private CarwasherFirebaseRepository carwasherFirebaseRepository;
 
 	public Map<String, Object> signUp(Carwasher shop) {
 		Map<String, Object> responseMap = new HashMap<>();
@@ -145,14 +153,50 @@ public class CarwasherService {
 		return responseMap;
 	}
 
+	public Map<String, Object> saveFirebaseToken(CarwasherFirebasenBean carwasherFirebaseEntity) {
+		Map<String, Object> responseMap = new HashMap<>();
+		int responseCode = 500;
+		String resMsg = "Error Occured";
+		boolean success = false;
+		try {
+			CarwasherFirebaseEntity cfe = new CarwasherFirebaseEntity();
+			cfe.setConsumerFirebaseId(carwasherFirebaseEntity.getConsumerFirebaseId());
+			cfe.setFirebaseToken(carwasherFirebaseEntity.getFirebaseToken());
+
+			carwasherFirebaseRepository.saveAndFlush(cfe);
+
+			responseCode = 200;
+			resMsg = "Successfully Added Consumer Firebase Token.";
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		responseMap.put(BuyGConstants.DATA_STRING, success);
+		responseMap.put(BuyGConstants.RESPONSE_CODE_STRING, responseCode);
+		responseMap.put(BuyGConstants.RESPONSE_MSG, resMsg);
+		return responseMap;
+	}
+
+	public List<CarwasherEntity> getCarwahserByAddressMatching(String city, String state) {
+		List<CarwasherEntity> list = new ArrayList<>();
+		try {
+
+			List<CarwasherAddressEntity> addList = carwasherAddressRepository.getCarwahserByAddressMatching(city,
+					state);
+			for (CarwasherAddressEntity ce : addList) {
+				list.add(ce.getCarwasherEntity());
+			}
+		} catch (Exception e) {
+		}
+		return list;
+	}
 	/*
 	 * public Map<String, Object> getAddressForshopId(Integer shopId) {
 	 * Map<String, Object> responseMap = new HashMap<>(); int responseCode = 0;
 	 * CarwasherAddress shopAddress = null; if (shopId != null) {
 	 * CarwasherEntity shopEntity = new CarwasherEntity();
 	 * shopEntity.setShopId(shopId); CarwasherAddressEntity add =
-	 * carwasherAddressRepository.findByShopEntity(shopEntity); shopAddress = new
-	 * CarwasherAddress(); shopAddress.setAddressId(add.getAddressId());
+	 * carwasherAddressRepository.findByShopEntity(shopEntity); shopAddress =
+	 * new CarwasherAddress(); shopAddress.setAddressId(add.getAddressId());
 	 * shopAddress.setAddressLine(add.getAddressLine());
 	 * shopAddress.setCity(add.getCity());
 	 * shopAddress.setShopName(add.getShopName());
@@ -172,17 +216,17 @@ public class CarwasherService {
 	 * (shopEntity != null) { if (shop.getOwnerName() != null)
 	 * shopEntity.setOwnerName(shop.getOwnerName()); if (shop.getPhoneNumber()
 	 * != null) shopEntity.setPhoneNumber(shop.getPhoneNumber());
-	 * shopEntity.setShopId(id); carwasherRepository.save(shopEntity); responseCode =
-	 * 2; } responseMap.put(BuyGConstants.DATA_STRING, shopEntity);
-	 * responseMap.put(BuyGConstants.RESPONSE_CODE_STRING, responseCode); return
-	 * responseMap; }
+	 * shopEntity.setShopId(id); carwasherRepository.save(shopEntity);
+	 * responseCode = 2; } responseMap.put(BuyGConstants.DATA_STRING,
+	 * shopEntity); responseMap.put(BuyGConstants.RESPONSE_CODE_STRING,
+	 * responseCode); return responseMap; }
 	 */
 
 	/*
 	 * public Map<String, Object> updatePassword(CommonBean bean, Integer id) {
 	 * Map<String, Object> responseMap = new HashMap<>(); int responseCode = 0;
-	 * CarwasherEntity shopEntity = carwasherRepository.findByShopId(id); try { if
-	 * (bean.getOldPassword() != null && bean.getNewPassword() != null) {
+	 * CarwasherEntity shopEntity = carwasherRepository.findByShopId(id); try {
+	 * if (bean.getOldPassword() != null && bean.getNewPassword() != null) {
 	 * responseCode = 1; if (shopEntity != null) { String oldPassword =
 	 * shopEntity.getPassword(); if (bean.getOldPassword().equals(oldPassword))
 	 * { shopEntity.setPassword(bean.getNewPassword());
