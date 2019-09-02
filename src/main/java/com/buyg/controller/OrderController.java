@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -47,6 +48,24 @@ public class OrderController {
 	public Map<String, Object> getAllNewOrdersForCarwasher(@PathVariable("carwasherId") Integer carwasherId,
 			@PathVariable("city") String city, @PathVariable("state") String state) throws Exception {
 		return orderService.getAllNewOrdersForCarwasher(carwasherId, city, state);
+	}
+
+	@PutMapping(value = "/confirmOrderByCarwasher/{orderId}/{carwasherId}/{consumerId}")
+	public Map<String, Object> confirmOrderByCarwasher(@PathVariable("orderId") Integer orderId,
+			@PathVariable("carwasherId") Integer carwasherId, @PathVariable("consumerId") Integer consumerId)
+			throws Exception {
+		return orderService.confirmOrderByCarwasher(orderId, carwasherId, consumerId);
+	}
+
+	@PutMapping(value = "/completeOrderByOrderId/{orderId}/{consumerId}")
+	public Map<String, Object> completeOrderByOrderId(@PathVariable("orderId") Integer orderId,
+			@PathVariable("consumerId") Integer consumerId) throws Exception {
+		return orderService.completeOrderByOrderId(orderId, consumerId);
+	}
+
+	@GetMapping(value = "/getAllDetailsForOrderId/{orderId}")
+	public Map<String, Object> getAllDetailsForOrderId(@PathVariable("orderId") Integer orderId) throws Exception {
+		return orderService.getAllDetailsForOrderId(orderId);
 	}
 
 }

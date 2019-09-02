@@ -30,8 +30,6 @@ public class CarwasherAddressEntity {
 	private String state;
 	@Column(name = "pincode")
 	private Integer pincode;
-	@Column(name = "addresstype")
-	private String addressType;
 	@OneToOne(cascade = CascadeType.MERGE)
 	@JoinColumn(name = "carwasherid")
 	private CarwasherEntity carwasherEntity;

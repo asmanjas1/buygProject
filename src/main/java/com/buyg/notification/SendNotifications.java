@@ -27,6 +27,7 @@ public class SendNotifications {
 			notificationData.setTitle(title);
 			notificationRequestModel.setData(notificationData);
 			notificationRequestModel.setTo(to);
+			notificationRequestModel.setmPriority("high");
 
 			Gson gson = new Gson();
 			Type type = new TypeToken<NotificationRequestModel>() {

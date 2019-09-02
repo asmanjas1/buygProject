@@ -7,5 +7,5 @@ import com.buyg.entity.ConsumerFirebaseEntity;
 
 @Repository
 public interface ConsumerFirebaseRepository extends JpaRepository<ConsumerFirebaseEntity, Integer> {
-
+	ConsumerFirebaseEntity findByconsumerFirebaseId(Integer id);
 }

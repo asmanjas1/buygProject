@@ -13,7 +13,7 @@ import lombok.Data;
 public class CarwasherFirebaseEntity {
 	@Id
 	@Column(name = "carwasherfirebaseid")
-	private Integer consumerFirebaseId;
+	private Integer carwasherFirebaseId;
 	@Column(name = "firebasetoken")
 	private String firebaseToken;
 }

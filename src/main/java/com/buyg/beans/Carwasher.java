@@ -1,7 +1,5 @@
 package com.buyg.beans;
 
-import java.util.Date;
-
 import lombok.Data;
 
 @Data
@@ -11,7 +9,7 @@ public class Carwasher {
 	private String email;
 	private String phoneNumber;
 	private String password;
-	private Date registrationDate;
-	private Date lastUpdateDate;
+	private String registrationDate;
+	private String lastUpdateDate;
 	private CarwasherAddress carwasherAddress;
 }

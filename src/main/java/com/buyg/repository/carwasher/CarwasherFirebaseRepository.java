@@ -9,5 +9,5 @@ import com.buyg.entity.CarwasherFirebaseEntity;
 
 @Repository
 public interface CarwasherFirebaseRepository extends JpaRepository<CarwasherFirebaseEntity, Integer> {
-	List<CarwasherFirebaseEntity> findByconsumerFirebaseIdIn(List<Integer> list);
+	List<CarwasherFirebaseEntity> findBycarwasherFirebaseIdIn(List<Integer> list);
 }

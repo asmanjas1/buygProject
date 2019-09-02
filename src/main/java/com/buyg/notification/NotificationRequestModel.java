@@ -3,10 +3,21 @@ package com.buyg.notification;
 import com.google.gson.annotations.SerializedName;
 
 public class NotificationRequestModel {
-	@SerializedName("notification")
+	@SerializedName("data")
 	private NotificationData mData;
 	@SerializedName("registration_ids")
 	private String mTo[];
+
+	@SerializedName("priority")
+	private String mPriority;
+
+	public String getmPriority() {
+		return mPriority;
+	}
+
+	public void setmPriority(String mPriority) {
+		this.mPriority = mPriority;
+	}
 
 	public NotificationData getData() {
 		return mData;

@@ -1,14 +1,12 @@
 package com.buyg.beans;
 
-import java.util.Date;
-
 import lombok.Data;
 
 @Data
 public class Orders {
 	private Integer orderId;
-	private Date orderDate;
-	private Date orderCompletedDate;
+	private String orderDate;
+	private String orderCompletedDate;
 	private Double orderAmount;
 	private String orderStatus;
 	private String orderPaymentStatus;
@@ -19,4 +17,8 @@ public class Orders {
 	private Integer orderAddressId;
 	private String orderAddressCity;
 	private String orderAddressState;
+
+	private Carwasher carwasher;
+	private Vehicle orderVehicle;
+	private ConsumerAddress orderAddress;
 }

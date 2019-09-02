@@ -21,6 +21,7 @@ import com.buyg.repository.carwasher.CarwasherFirebaseRepository;
 import com.buyg.repository.carwasher.CarwasherRepository;
 import com.buyg.utils.BuyGConstants;
 import com.buyg.validations.ShopValidation;
+import com.google.gson.Gson;
 
 @Service
 public class CarwasherService {
@@ -35,6 +36,8 @@ public class CarwasherService {
 
 	@Autowired
 	private CarwasherFirebaseRepository carwasherFirebaseRepository;
+
+	public static Gson gson = new Gson();
 
 	public Map<String, Object> signUp(Carwasher shop) {
 		Map<String, Object> responseMap = new HashMap<>();
@@ -81,8 +84,8 @@ public class CarwasherService {
 					shop.setCarwasherId(shopEntity.getCarwasherId());
 					shop.setName(shopEntity.getName());
 					shop.setPhoneNumber(shopEntity.getPhoneNumber());
-					shop.setRegistrationDate(shopEntity.getRegistrationDate());
-					shop.setLastUpdateDate(shopEntity.getLastUpdateDate());
+					shop.setRegistrationDate(shopEntity.getRegistrationDate().toString());
+					shop.setLastUpdateDate(shopEntity.getLastUpdateDate().toString());
 					CarwasherAddressEntity sAddEntity = shopEntity.getCarwasherAddressEntity();
 					CarwasherAddress sAdd = null;
 					if (sAddEntity != null) {
@@ -107,7 +110,49 @@ public class CarwasherService {
 			resMsg = "login validation failed";
 		}
 		shop.setPassword(null);
-		responseMap.put(BuyGConstants.DATA_STRING, shop);
+		responseMap.put(BuyGConstants.DATA_STRING, gson.toJson(shop));
+		responseMap.put(BuyGConstants.RESPONSE_CODE_STRING, responseCode);
+		responseMap.put(BuyGConstants.RESPONSE_MSG, resMsg);
+		return responseMap;
+	}
+
+	public Map<String, Object> getCarwasherById(Integer id) {
+		Map<String, Object> responseMap = new HashMap<>();
+		int responseCode = 500;
+		String resMsg = "Error Occured";
+		Carwasher carwasher = new Carwasher();
+		if (id != null) {
+			responseCode = 900;
+			resMsg = "General Error";
+			CarwasherEntity shopEntity = carwasherRepository.findBycarwasherId(id);
+			if (shopEntity != null) {
+				carwasher.setCarwasherId(shopEntity.getCarwasherId());
+				carwasher.setName(shopEntity.getName());
+				carwasher.setPhoneNumber(shopEntity.getPhoneNumber());
+				carwasher.setRegistrationDate(shopEntity.getRegistrationDate().toString());
+				carwasher.setLastUpdateDate(shopEntity.getLastUpdateDate().toString());
+				CarwasherAddressEntity sAddEntity = shopEntity.getCarwasherAddressEntity();
+				CarwasherAddress sAdd = null;
+				if (sAddEntity != null) {
+					sAdd = new CarwasherAddress();
+					sAdd.setAddressId(sAddEntity.getAddressId());
+					sAdd.setAddressLine(sAddEntity.getAddressLine());
+					sAdd.setLocality(sAddEntity.getLocality());
+					sAdd.setCity(sAddEntity.getCity());
+					sAdd.setState(sAddEntity.getState());
+					sAdd.setPincode(sAddEntity.getPincode());
+				}
+				carwasher.setCarwasherAddress(sAdd);
+				responseCode = 200;
+				resMsg = "Successfully LoggedIn";
+			}
+
+		} else {
+			responseCode = 400;
+			resMsg = "login validation failed";
+		}
+		carwasher.setPassword(null);
+		responseMap.put(BuyGConstants.DATA_STRING, gson.toJson(carwasher));
 		responseMap.put(BuyGConstants.RESPONSE_CODE_STRING, responseCode);
 		responseMap.put(BuyGConstants.RESPONSE_MSG, resMsg);
 		return responseMap;
@@ -160,7 +205,7 @@ public class CarwasherService {
 		boolean success = false;
 		try {
 			CarwasherFirebaseEntity cfe = new CarwasherFirebaseEntity();
-			cfe.setConsumerFirebaseId(carwasherFirebaseEntity.getConsumerFirebaseId());
+			cfe.setCarwasherFirebaseId(carwasherFirebaseEntity.getConsumerFirebaseId());
 			cfe.setFirebaseToken(carwasherFirebaseEntity.getFirebaseToken());
 
 			carwasherFirebaseRepository.saveAndFlush(cfe);

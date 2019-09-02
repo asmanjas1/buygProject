@@ -10,6 +10,5 @@ public class CarwasherAddress {
 	private String city;
 	private String state;
 	private Integer pincode;
-	private String addressType;
 	private Carwasher carwasher;
 }
