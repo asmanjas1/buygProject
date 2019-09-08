@@ -25,6 +25,7 @@ public class SendNotifications {
 
 			notificationData.setDetail(details);
 			notificationData.setTitle(title);
+			notificationData.setSound("default");
 			notificationRequestModel.setData(notificationData);
 			notificationRequestModel.setTo(to);
 			notificationRequestModel.setmPriority("high");

@@ -354,4 +354,72 @@ public class ConsumerService {
 		return responseMap;
 	}
 
+	public Map<String, Object> doLoginByNumber(String phoneNumber) {
+		Map<String, Object> responseMap = new HashMap<>();
+		int responseCode = 500;
+		String resMsg = "Error Occured";
+		Consumer consumer = new Consumer();
+		try {
+
+			if (nonNull(phoneNumber)) {
+				responseCode = 900;
+				resMsg = "General Error";
+				ConsumerEntity consumerEntity = consumerRepository.fetchUserByPhoneNumber(phoneNumber);
+				if (consumerEntity != null) {
+					consumer.setConsumerId(consumerEntity.getConsumerId());
+					consumer.setName(consumerEntity.getName());
+					consumer.setEmail(consumerEntity.getEmail());
+					consumer.setPhoneNumber(consumerEntity.getPhoneNumber());
+					consumer.setRegistrationDate(consumerEntity.getRegistrationDate().toString());
+					consumer.setLastUpdateDate(consumerEntity.getLastUpdateDate().toString());
+					List<ConsumerAddress> list = new ArrayList<ConsumerAddress>();
+					List<ConsumerAddressEntity> listFromDatabase = consumerEntity.getConsumerAddressEntities();
+					for (ConsumerAddressEntity cde : listFromDatabase) {
+						ConsumerAddress caa = new ConsumerAddress();
+						caa.setAddressId(cde.getAddressId());
+						caa.setAddressLine(cde.getAddressLine());
+						caa.setLocality(cde.getLocality());
+						caa.setState(cde.getState());
+						caa.setCity(cde.getCity());
+						caa.setPincode(cde.getPincode());
+						list.add(caa);
+					}
+					consumer.setListOfAddress(list);
+
+					List<VehicleEntity> listVehicleEntity = consumerEntity.getVehicleEntities();
+					List<Vehicle> list1 = new ArrayList<>();
+					if (listVehicleEntity != null) {
+						for (VehicleEntity ve : listVehicleEntity) {
+							Vehicle vehicle = new Vehicle();
+							vehicle.setVehicleId(ve.getVehicleId());
+							vehicle.setVehicleName(ve.getVehicleName());
+							vehicle.setVehicleNumber(ve.getVehicleNumber());
+							vehicle.setVehicleType(ve.getVehicleType());
+							list1.add(vehicle);
+						}
+
+						consumer.setListOfVehicle(list1);
+					}
+					responseCode = 200;
+					resMsg = "Successfully LoggedIn";
+				} else {
+					consumer.setConsumerId(0);
+					responseCode = 200;
+					resMsg = "no user find with phone number";
+				}
+			} else {
+				consumer.setConsumerId(0);
+				responseCode = 400;
+				resMsg = "login validation failed";
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		consumer.setPassword(null);
+		responseMap.put(BuyGConstants.DATA_STRING, gson.toJson(consumer));
+		responseMap.put(BuyGConstants.RESPONSE_CODE_STRING, responseCode);
+		responseMap.put(BuyGConstants.RESPONSE_MSG, resMsg);
+		return responseMap;
+	}
+
 }

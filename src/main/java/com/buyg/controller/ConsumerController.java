@@ -91,4 +91,9 @@ public class ConsumerController {
 	public Map<String, Object> updatePassword(@RequestBody CommonBean bean, @PathVariable Integer id) {
 		return consumerService.updatePassword(bean, id);
 	}
+
+	@GetMapping(value = "/doLoginByNumber/{phoneNumber}")
+	public Map<String, Object> doLoginByNumber(@PathVariable("phoneNumber") String phoneNumber) throws Exception {
+		return consumerService.doLoginByNumber(phoneNumber);
+	}
 }

@@ -9,6 +9,17 @@ public class NotificationData {
 	@SerializedName("title")
 	private String mTitle;
 
+	@SerializedName("sound")
+	private String sound;
+
+	public String getSound() {
+		return sound;
+	}
+
+	public void setSound(String sound) {
+		this.sound = sound;
+	}
+
 	public String getDetail() {
 		return mDetail;
 	}

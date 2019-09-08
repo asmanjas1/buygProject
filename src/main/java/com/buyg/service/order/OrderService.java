@@ -369,6 +369,7 @@ public class OrderService {
 			consumerAddress.setLocality(consumerAddressEntity.getLocality());
 			consumerAddress.setCity(consumerAddressEntity.getCity());
 			consumerAddress.setState(consumerAddressEntity.getState());
+			consumerAddress.setPincode(consumerAddressEntity.getPincode());
 		} catch (Exception e) {
 		}
 		return consumerAddress;

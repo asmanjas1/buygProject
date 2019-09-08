@@ -35,6 +35,11 @@ public class CarwasherController {
 		return carwasherService.doLogin(shop);
 	}
 
+	@GetMapping(value = "/doLoginByNumber/{phoneNumber}")
+	public Map<String, Object> doLoginByNumber(@PathVariable("phoneNumber") String phoneNumber) throws Exception {
+		return carwasherService.doLoginByNumber(phoneNumber);
+	}
+
 	@PostMapping(value = "/saveaddress")
 	public Map<String, Object> saveAddress(@RequestBody CarwasherAddress shopAddress) throws Exception {
 		Map<String, Object> map = carwasherService.saveAddress(shopAddress);

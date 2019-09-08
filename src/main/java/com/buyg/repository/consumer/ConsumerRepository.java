@@ -17,8 +17,11 @@ public interface ConsumerRepository extends JpaRepository<ConsumerEntity, Intege
 
 	@Query("from ConsumerEntity where email =:email and password =:password")
 	ConsumerEntity fetchUser(@Param("email") String email, @Param("password") String password);
-	
+
 	@Transactional(readOnly = true)
 	ConsumerEntity findByConsumerId(Integer consumerid);
+
+	@Query("from ConsumerEntity where phoneNumber =:phoneNumber")
+	ConsumerEntity fetchUserByPhoneNumber(@Param("phoneNumber") String phoneNumber);
 
 }

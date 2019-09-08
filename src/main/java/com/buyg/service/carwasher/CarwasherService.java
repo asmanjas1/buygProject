@@ -83,6 +83,7 @@ public class CarwasherService {
 				if (shopEntity != null) {
 					shop.setCarwasherId(shopEntity.getCarwasherId());
 					shop.setName(shopEntity.getName());
+					shop.setEmail(shopEntity.getEmail());
 					shop.setPhoneNumber(shopEntity.getPhoneNumber());
 					shop.setRegistrationDate(shopEntity.getRegistrationDate().toString());
 					shop.setLastUpdateDate(shopEntity.getLastUpdateDate().toString());
@@ -233,6 +234,52 @@ public class CarwasherService {
 		} catch (Exception e) {
 		}
 		return list;
+	}
+
+	public Map<String, Object> doLoginByNumber(String phoneNumber) {
+		Map<String, Object> responseMap = new HashMap<>();
+		int responseCode = 500;
+		String resMsg = "Error Occured";
+		Carwasher shop = new Carwasher();
+		if (nonNull(phoneNumber)) {
+			responseCode = 900;
+			resMsg = "General Error";
+			CarwasherEntity shopEntity = carwasherRepository.fetchUserByPhoneNumber(phoneNumber);
+			if (shopEntity != null) {
+				shop.setCarwasherId(shopEntity.getCarwasherId());
+				shop.setEmail(shopEntity.getEmail());
+				shop.setName(shopEntity.getName());
+				shop.setPhoneNumber(shopEntity.getPhoneNumber());
+				shop.setRegistrationDate(shopEntity.getRegistrationDate().toString());
+				shop.setLastUpdateDate(shopEntity.getLastUpdateDate().toString());
+				CarwasherAddressEntity sAddEntity = shopEntity.getCarwasherAddressEntity();
+				CarwasherAddress sAdd = null;
+				if (sAddEntity != null) {
+					sAdd = new CarwasherAddress();
+					sAdd.setAddressId(sAddEntity.getAddressId());
+					sAdd.setAddressLine(sAddEntity.getAddressLine());
+					sAdd.setLocality(sAddEntity.getLocality());
+					sAdd.setCity(sAddEntity.getCity());
+					sAdd.setState(sAddEntity.getState());
+					sAdd.setPincode(sAddEntity.getPincode());
+				}
+				shop.setCarwasherAddress(sAdd);
+				responseCode = 200;
+				resMsg = "Successfully LoggedIn";
+			} else {
+				shop.setCarwasherId(0);
+				responseCode = 200;
+				resMsg = "no user find with phone number";
+			}
+		} else {
+			responseCode = 400;
+			resMsg = "login validation failed";
+		}
+		shop.setPassword(null);
+		responseMap.put(BuyGConstants.DATA_STRING, gson.toJson(shop));
+		responseMap.put(BuyGConstants.RESPONSE_CODE_STRING, responseCode);
+		responseMap.put(BuyGConstants.RESPONSE_MSG, resMsg);
+		return responseMap;
 	}
 	/*
 	 * public Map<String, Object> getAddressForshopId(Integer shopId) {
