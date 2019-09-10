@@ -128,6 +128,7 @@ public class CarwasherService {
 			CarwasherEntity shopEntity = carwasherRepository.findBycarwasherId(id);
 			if (shopEntity != null) {
 				carwasher.setCarwasherId(shopEntity.getCarwasherId());
+				carwasher.setEmail(shopEntity.getEmail());
 				carwasher.setName(shopEntity.getName());
 				carwasher.setPhoneNumber(shopEntity.getPhoneNumber());
 				carwasher.setRegistrationDate(shopEntity.getRegistrationDate().toString());
@@ -169,23 +170,36 @@ public class CarwasherService {
 			resMsg = "General Error";
 			if (shopValidation.validateShopAdddress(shopAddress)) {
 				CarwasherAddressEntity addressEntity = new CarwasherAddressEntity();
-				addressEntity.setAddressLine(shopAddress.getAddressLine());
-				addressEntity.setLocality(shopAddress.getLocality());
-				addressEntity.setCity(shopAddress.getCity());
-				addressEntity.setState(shopAddress.getState());
-				addressEntity.setPincode(shopAddress.getPincode());
+
 				CarwasherEntity carwasherEntity = new CarwasherEntity();
-
 				carwasherEntity.setCarwasherId(shopAddress.getCarwasher().getCarwasherId());
-				carwasherEntity.setEmail(shopAddress.getCarwasher().getEmail());
-				carwasherEntity.setName(shopAddress.getCarwasher().getName());
-				carwasherEntity.setPassword(shopAddress.getCarwasher().getPassword());
-				carwasherEntity.setPhoneNumber(shopAddress.getCarwasher().getPhoneNumber());
 
-				addressEntity.setCarwasherEntity(carwasherEntity);
-				add = carwasherAddressRepository.saveAndFlush(addressEntity);
-				responseCode = 200;
-				resMsg = "Successfully Added carwasher address";
+				CarwasherAddressEntity addressEntity1 = carwasherAddressRepository
+						.findByCarwasherEntity(carwasherEntity);
+
+				if (addressEntity1 == null) {
+					addressEntity.setAddressLine(shopAddress.getAddressLine());
+					addressEntity.setLocality(shopAddress.getLocality());
+					addressEntity.setCity(shopAddress.getCity());
+					addressEntity.setState(shopAddress.getState());
+					addressEntity.setPincode(shopAddress.getPincode());
+
+					addressEntity.setCarwasherEntity(carwasherEntity);
+					add = carwasherAddressRepository.saveAndFlush(addressEntity);
+					responseCode = 200;
+					resMsg = "Successfully Added carwasher address";
+				} else {
+					addressEntity1.setAddressLine(shopAddress.getAddressLine());
+					addressEntity1.setLocality(shopAddress.getLocality());
+					addressEntity1.setCity(shopAddress.getCity());
+					addressEntity1.setState(shopAddress.getState());
+					addressEntity1.setPincode(shopAddress.getPincode());
+
+					add = carwasherAddressRepository.saveAndFlush(addressEntity1);
+					responseCode = 200;
+					resMsg = "Successfully Updated carwasher address";
+				}
+
 			} else {
 				responseCode = 400;
 				resMsg = "address validation failed";
