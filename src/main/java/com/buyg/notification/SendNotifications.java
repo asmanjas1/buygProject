@@ -18,7 +18,7 @@ public class SendNotifications {
 
 	private static String apiKey = "AIzaSyDr1uxEaAxmWNd9jct5RWwQpo5NyXyjWVI";
 
-	public void sendNotifications(String title, String details, String[] to) {
+	public void sendNotifications(String title, String details, String[] to, Integer orderId) {
 		try (DefaultHttpClient httpClient = new DefaultHttpClient();) {
 			NotificationRequestModel notificationRequestModel = new NotificationRequestModel();
 			NotificationData notificationData = new NotificationData();
@@ -26,6 +26,9 @@ public class SendNotifications {
 			notificationData.setDetail(details);
 			notificationData.setTitle(title);
 			notificationData.setSound("default");
+			if (orderId != null) {
+				notificationData.setOrderId(orderId.toString());
+			}
 			notificationRequestModel.setData(notificationData);
 			notificationRequestModel.setTo(to);
 			notificationRequestModel.setmPriority("high");

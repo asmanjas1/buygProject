@@ -12,6 +12,17 @@ public class NotificationData {
 	@SerializedName("sound")
 	private String sound;
 
+	@SerializedName("orderId")
+	private String orderId;
+
+	public String getOrderId() {
+		return orderId;
+	}
+
+	public void setOrderId(String orderId) {
+		this.orderId = orderId;
+	}
+
 	public String getSound() {
 		return sound;
 	}

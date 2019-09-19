@@ -116,8 +116,8 @@ public class OrderService {
 				}
 				String[] item = tokenList.toArray(new String[tokenList.size()]);
 
-				sendNotifications.sendNotifications("New Order", "You got a new order.. click here to accept it.",
-						item);
+				sendNotifications.sendNotifications("New Order", "You got a new order.. click here to accept it.", item,
+						null);
 			}
 		}
 	}
@@ -240,7 +240,7 @@ public class OrderService {
 		try {
 			Integer updatedRows = ordersRepository.confirmOrderByCarwasher(orderId, carwasherId, "In Progress", "New");
 			if (updatedRows > 0) {
-				sendOrderConfirmNotificatoin(consumerId);
+				sendOrderConfirmNotificatoin(consumerId, orderId);
 				flag = true;
 			}
 			responseCode = 200;
@@ -276,7 +276,7 @@ public class OrderService {
 		return responseMap;
 	}
 
-	public void sendOrderConfirmNotificatoin(Integer consumerId) {
+	public void sendOrderConfirmNotificatoin(Integer consumerId, Integer orderId) {
 		if (consumerId != null) {
 			ConsumerFirebaseEntity cfe = consumerFirebaseRepository.findByconsumerFirebaseId(consumerId);
 			if (cfe != null) {
@@ -284,7 +284,7 @@ public class OrderService {
 				tokenList.add(cfe.getFirebaseToken());
 				String[] item = tokenList.toArray(new String[tokenList.size()]);
 				sendNotifications.sendNotifications("Order Confirmed",
-						"Your order has been confirmed.. click to check details.", item);
+						"Your order has been confirmed.. click to check details.", item, orderId);
 			}
 		}
 
@@ -297,8 +297,9 @@ public class OrderService {
 				List<String> tokenList = new ArrayList<>();
 				tokenList.add(cfe.getFirebaseToken());
 				String[] item = tokenList.toArray(new String[tokenList.size()]);
-				sendNotifications.sendNotifications("Order Confirmed",
-						"Your order with OrderId: " + orderId + " is completed. Thanks for choosing us!", item);
+				sendNotifications.sendNotifications("Order Completed",
+						"Your order with OrderId: " + orderId + " is completed. Thanks for choosing us!", item,
+						orderId);
 			}
 		}
 
