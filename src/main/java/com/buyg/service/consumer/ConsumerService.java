@@ -132,6 +132,43 @@ public class ConsumerService {
 		return responseMap;
 	}
 
+	public Map<String, Object> deleteVehicle(Vehicle vehicle) {
+		Map<String, Object> responseMap = new HashMap<>();
+		int responseCode = 500;
+		String resMsg = "Error Occured";
+		try {
+			consumerVehicleRepository.delete(vehicle.getVehicleId());
+			responseCode = 200;
+			resMsg = "Successfully deleted vehicle";
+		} catch (Exception e) {
+			resMsg = "Internal server error";
+		}
+
+		responseMap.put(BuyGConstants.DATA_STRING, null);
+		responseMap.put(BuyGConstants.RESPONSE_CODE_STRING, responseCode);
+		responseMap.put(BuyGConstants.RESPONSE_MSG, resMsg);
+		return responseMap;
+	}
+
+	public Map<String, Object> deleteAddress(ConsumerAddress consumerAddress) {
+		Map<String, Object> responseMap = new HashMap<>();
+		int responseCode = 500;
+		String resMsg = "Error Occured";
+
+		try {
+			consumerAddressRepository.delete(consumerAddress.getAddressId());
+			responseCode = 200;
+			resMsg = "Successfully deleted address";
+		} catch (Exception e) {
+			resMsg = "Internal server error";
+		}
+
+		responseMap.put(BuyGConstants.DATA_STRING, null);
+		responseMap.put(BuyGConstants.RESPONSE_CODE_STRING, responseCode);
+		responseMap.put(BuyGConstants.RESPONSE_MSG, resMsg);
+		return responseMap;
+	}
+
 	public Map<String, Object> doLogin(Consumer consumer) {
 		Map<String, Object> responseMap = new HashMap<>();
 		int responseCode = 500;

@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -62,6 +63,18 @@ public class ConsumerController {
 			map.put("data", map1.get("data"));
 		}
 
+		return map;
+	}
+
+	@DeleteMapping(value = "/deleteVehicle")
+	public Map<String, Object> deleteVehicle(@RequestBody Vehicle vehicle) throws Exception {
+		Map<String, Object> map = consumerService.deleteVehicle(vehicle);
+		return map;
+	}
+
+	@DeleteMapping(value = "/deleteAddress")
+	public Map<String, Object> deleteAddress(@RequestBody ConsumerAddress consumerAddress) throws Exception {
+		Map<String, Object> map = consumerService.deleteAddress(consumerAddress);
 		return map;
 	}
 

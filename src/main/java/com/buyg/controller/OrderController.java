@@ -32,6 +32,11 @@ public class OrderController {
 		return orderService.getOrdersForConsumer(consumerId);
 	}
 
+	@GetMapping(value = "/getOrderValue/{vehicleType}")
+	public Map<String, Object> getOrderValue(@PathVariable("vehicleType") String vehicleType) throws Exception {
+		return orderService.getOrderValue(vehicleType);
+	}
+
 	@GetMapping(value = "/getCompletedOrdersForCarwasher/{carwasherId}")
 	public Map<String, Object> getCompletedOrdersForCarwasher(@PathVariable("carwasherId") Integer carwasherId)
 			throws Exception {

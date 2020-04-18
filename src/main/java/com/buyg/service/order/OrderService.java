@@ -122,6 +122,25 @@ public class OrderService {
 		}
 	}
 
+	public Map<String, Object> getOrderValue(String vehicleType) {
+		Map<String, Object> responseMap = new HashMap<>();
+		int responseCode = 500;
+		String resMsg = "Error Occured";
+		Integer value = 200;
+		try {
+			if (vehicleType.equals(BuyGConstants.CAR)) {
+				value = 199;
+			}
+			responseCode = 200;
+			resMsg = "Success";
+		} catch (Exception e) {
+		}
+		responseMap.put(BuyGConstants.DATA_STRING, value);
+		responseMap.put(BuyGConstants.RESPONSE_CODE_STRING, responseCode);
+		responseMap.put(BuyGConstants.RESPONSE_MSG, resMsg);
+		return responseMap;
+	}
+
 	public Map<String, Object> getOrdersForConsumer(Integer consumerId) {
 		Map<String, Object> responseMap = new HashMap<>();
 		int responseCode = 500;
@@ -311,6 +330,7 @@ public class OrderService {
 		String resMsg = "Error Occured";
 		Orders orders = new Orders();
 		try {
+			long time1 = System.currentTimeMillis();
 			OrdersEntity ordersEntity = ordersRepository.findByOrderId(orderId);
 			orders.setOrderId(ordersEntity.getOrderId());
 			orders.setOrderDate(ordersEntity.getOrderDate().toString());
@@ -318,6 +338,8 @@ public class OrderService {
 			orders.setOrderAmount(ordersEntity.getOrderAmount());
 			orders.setOrderStatus(ordersEntity.getOrderStatus());
 			orders.setOrderPaymentStatus(ordersEntity.getOrderPaymentStatus());
+			long time2 = System.currentTimeMillis();
+			System.out.println(time2 - time1);
 
 			ConsumerEntity consumerEntity = ordersEntity.getConsumerEntity();
 			Consumer consumer = new Consumer();
@@ -325,16 +347,21 @@ public class OrderService {
 			consumer.setName(consumerEntity.getName());
 			consumer.setPhoneNumber(consumerEntity.getPhoneNumber());
 			orders.setConsumer(consumer);
+			long time3 = System.currentTimeMillis();
+			System.out.println(time3 - time2);
 
 			Integer vehicleId = ordersEntity.getOrderVehicleId();
 			orders.setOrderVehicle(getVehicleById(vehicleId));
-
+			long time4 = System.currentTimeMillis();
+			System.out.println(time4 - time3);
 			Integer addressId = ordersEntity.getOrderAddressId();
 			orders.setOrderAddress(getConsumerAddressById(addressId));
-
+			long time5 = System.currentTimeMillis();
+			System.out.println(time5 - time4);
 			Integer carwasherId = ordersEntity.getOrderCarwasherId();
 			orders.setCarwasher(getCarwasherById(carwasherId));
-
+			long time6 = System.currentTimeMillis();
+			System.out.println(time6 - time5);
 			responseCode = 200;
 			resMsg = "Success";
 		} catch (Exception e) {
